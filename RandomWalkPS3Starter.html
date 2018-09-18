@@ -1,0 +1,110 @@
+<style>
+	h2{color:red;font-size:3em;}
+	li{color:blue;font-size:2em;}
+</style><!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+var canvas, context;
+var particles = [];
+var WIDTH;
+var HEIGHT;
+var diffusionDistance=20;
+var color;
+
+window.onload = initialize;
+function initialize(){
+	// add canvas to overlay
+	canvas = document.getElementById('myCanvas');
+	context = canvas.getContext('2d');
+	WIDTH = canvas.width;
+	HEIGHT= canvas.height;
+	color = 'green';
+	var n = 1,i,x,y,dx=0,dy=0,p; 
+	// build particles			
+	for (i = 0; i < n; i+=1) {
+		x = 0.5 *WIDTH;
+		y = 0.5 *HEIGHT;	
+		p = Particle(x,y,dx,dy);
+		particles.push(p);
+	}
+}
+function Particle(x,y,dx,dy){
+	return {x:x,y:y,dx:dx,dy:dy};
+}
+
+function updateParticles() {
+	var i,p,start = {};
+	//context.clearRect(0, 0, WIDTH, HEIGHT);
+	length = particles.length;
+// loop over particles
+	for (i = 0; i < length; i++) {
+		p = particles[i];
+
+		start.x = p.x; start.y = p.y;
+		// at present this is a random step size
+		p.dx = diffusionDistance*(Math.random()-0.5); 
+		p.dy = diffusionDistance*(Math.random()-0.5);
+		if (p.x + p.dx > WIDTH || p.x + p.dx < 0){
+				p.dx = -p.dx;
+		}
+		if (p.y + p.dy > HEIGHT || p.y + p.dy < 0){
+				p.dy = -p.dy;
+		}
+		p.x += p.dx; p.y += p.dy;
+		DrawCircle(p.x,p.y,color);
+		DrawLine(start.x,start.y,p.x,p.y);
+	}		
+	DrawRect(0,0,WIDTH,HEIGHT);
+	//DrawLine(WIDTH/2,0,WIDTH/2,HEIGHT/2-20);
+	//DrawLine(WIDTH/2,HEIGHT,WIDTH/2,HEIGHT/2+20);
+}
+/*        
+	function normalize(x,y){
+		// calculate len here to normalize the vector
+		//return {x:x/len,y:y/len};  // return a unit vector
+	}
+*/
+
+	function DrawCircle(x,y,color){
+		context.fillStyle = color;
+		context.beginPath();
+		context.arc(x, y, 2, 0, Math.PI*2, true);
+		context.closePath();
+		context.fill();
+	}
+	function DrawRect(x,y,dx,dy){
+		context.beginPath();
+		context.lineWidth="6";
+		context.strokeStyle="red";
+		context.rect(x,y,dx,dy);
+		context.stroke();
+	}
+	function DrawLine(x1,y1,x2,y2){
+		context.strokeStyle = 'rgb(255,0, 0)'; // red
+		context.lineWidth   = 4;
+		context.beginPath();
+		context.moveTo(x1,y1);
+		context.lineTo(x2,y2);
+		
+		context.fill();
+		context.stroke();
+		context.closePath();
+	}			
+ 	function RunPhysics(){timer = setInterval(updateParticles,100); // calls Run every xxx ms
+  }
+
+  function ResetTimer(){
+    if(timer!== null){
+      clearInterval(timer); 
+      timer = null;
+    }
+  }
+</script>
+</head>
+<body>
+    <input type="button" value="Start" onclick= "RunPhysics()" />
+    <input type="button" value="Stop"  onclick= "ResetTimer()" />
+	<canvas id='myCanvas' width = "800" height='600' >
+</body>
+</html>
