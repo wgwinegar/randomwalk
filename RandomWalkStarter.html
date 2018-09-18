@@ -5,26 +5,26 @@
 <html>
 <head>
 <script type="text/javascript">
-var canvas, context;
+var canvas, context; // context is what we use to draw
 var particles = [];
 var WIDTH;
 var HEIGHT;
 var diffusionDistance=20;
 var color;
-
+// ^This set all the variables so we can use them in functions below
 window.onload = initialize;
 function initialize(){
 	// add canvas to overlay
-	canvas = document.getElementById('myCanvas');
+	canvas = document.getElementById('myCanvas'); // see third to last line below
 	context = canvas.getContext('2d');
 	WIDTH = canvas.width;
 	HEIGHT= canvas.height;
 	color = 'green';
-	var n = 1,i,x,y,dx=0,dy=0,p; 
+	var n = 1,i,x,y,dx=0,dy=0,p; //Could separate these to different lines
 
 	// build particles			
 	for (i = 0; i < n; i+=1) {
-		x = 0.5 *WIDTH;
+		x = 0.5 *WIDTH; // x is half the width of canvas
 		y = 0.5 *HEIGHT;	
 		p = Particle(x,y,dx,dy);
 		particles.push(p);
@@ -33,7 +33,8 @@ function initialize(){
 function Particle(x,y,dx,dy){
 	return {x:x,y:y,dx:dx,dy:dy};
 }
-
+// second value in each set above is a value passed in from Particle(...)
+// if preceeded by var, it's local; if not, it's global
 function updateParticles() {
 	var i,p,start = {};
 	//context.clearRect(0, 0, WIDTH, HEIGHT);
@@ -100,7 +101,7 @@ var checkWallCollision = function(p){
       clearInterval(timer); 
       timer = null;
     }
-  }
+  } // watched simpledom4 - document object model
 </script>
 </head>
 <body>
