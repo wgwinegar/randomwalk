@@ -21,6 +21,7 @@ function initialize(){
 	HEIGHT= canvas.height;
 	color = 'green';
 	var n = 1,i,x,y,dx=0,dy=0,p; 
+
 	// build particles			
 	for (i = 0; i < n; i+=1) {
 		x = 0.5 *WIDTH;
@@ -43,22 +44,22 @@ function updateParticles() {
 
 		start.x = p.x; start.y = p.y;
 		// at present this is a random step size
-		p.dx = diffusionDistance*(Math.random()-0.5); 
-		p.dy = diffusionDistance*(Math.random()-0.5);
-		if (p.x + p.dx > WIDTH || p.x + p.dx < 0){
-				p.dx = -p.dx;
-		}
-		if (p.y + p.dy > HEIGHT || p.y + p.dy < 0){
-				p.dy = -p.dy;
-		}
+		p.dx = diffusionDistance*Math.random(); 
+		p.dy = diffusionDistance*Math.random();
+		checkWallCollision(p);
+		
 		p.x += p.dx; p.y += p.dy;
 		DrawCircle(p.x,p.y,color);
 		DrawLine(start.x,start.y,p.x,p.y);
 	}		
 	DrawRect(0,0,WIDTH,HEIGHT);
-	//DrawLine(WIDTH/2,0,WIDTH/2,HEIGHT/2-20);
-	//DrawLine(WIDTH/2,HEIGHT,WIDTH/2,HEIGHT/2+20);
 }
+var checkWallCollision = function(p){
+	/* make particle bounce off walls
+		enter code here
+	*/
+	
+};
 /*        
 	function normalize(x,y){
 		// calculate len here to normalize the vector
